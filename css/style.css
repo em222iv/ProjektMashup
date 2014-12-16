@@ -1,0 +1,49 @@
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map-canvas { height: 100%; width: 100%; position: absolute; z-index: 10000}
+#menu-toggle { position: relative; z-index: 111111; float:left; margin-top:20px; margin-left: 70px;}
+
+.tabs-below > .nav-tabs,
+.tabs-right > .nav-tabs,
+.tabs-left > .nav-tabs {
+    border-bottom: 0;
+}
+
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+    display: none;
+}
+
+.tab-content > .active,
+.pill-content > .active {
+    display: block;
+}
+
+.tabs-below > .nav-tabs {
+    border-top: 1px solid #ddd;
+}
+
+.tabs-below > .nav-tabs > li {
+    margin-top: -1px;
+    margin-bottom: 0;
+}
+
+.tabs-below > .nav-tabs > li > a {
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
+}
+
+.tabs-below > .nav-tabs > li > a:hover,
+.tabs-below > .nav-tabs > li > a:focus {
+    border-top-color: #ddd;
+    border-bottom-color: transparent;
+}
+.input-group{
+    padding: 5%;
+
+}
+.dropdown{
+    width:70%;
+    padding: 5%;
+}
