@@ -11,16 +11,15 @@ function searchList() {
         //force to handle it as text
         dataType: "json",
         success: function(data) {
+
             //data downloaded so we call parseJSON function
             //and pass downloaded data
             var json = $.parseJSON(data);
 
-            localStorage.setItem("categories", JSON.stringify(json));
-            json = $.parseJSON(localStorage.getItem("categories"));
+            localStorage.setItem("search", JSON.stringify(json));
+            json = $.parseJSON(localStorage.getItem("search"));
             console.log(json);
             //now json variable contains data in json format
-            //let's display a few items
-            
         }
     });
 }

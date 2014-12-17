@@ -18,7 +18,7 @@ require_once('getBaseInfo.php');
             <div class="col-lg-12">
                 <form action="#" method="post">
                     <div class="input-group">
-                        <input  type="text" name="name"class="form-control">
+                        <input  id="searchInput" type="text" name="name" class="form-control">
                          <span class="input-group-btn">
                             <input class=" btn btn-default"type="button" id="searchButton" value="Sök!" />
                         </span>

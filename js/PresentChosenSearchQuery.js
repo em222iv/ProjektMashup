@@ -13,7 +13,8 @@ function chosenCategory() {
 
     var chosenCategory = document.getElementById('chosenCategory');
     $('#category-dropdown').click(function(v){
-        console.log(v.target.text);
+        localStorage.setItem("chosenCategory", v.target.id);
+
         chosenCategory.textContent = v.target.text;
     });
 }
@@ -21,7 +22,8 @@ function chosenRegion() {
 
     var chosenRegion = document.getElementById('chosenRegion');
     $('#region-dropdown').click(function(v){
-        console.log(v.target.text);
+        localStorage.setItem("chosenRegion", v.target.id);
+
         chosenRegion.textContent = v.target.text;
     });
 }

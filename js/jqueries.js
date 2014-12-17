@@ -5,6 +5,12 @@
 
     //make search/post to php
 $("#searchButton").click(function(e) {
+
+    var seachquery = $("#searchInput").val();
+    var category = localStorage.getItem("chosenCategory");
+    var region = localStorage.getItem("chosenRegion");
+
+    console.log($("#region-dropdown").val());
     if ($('.bar').is('.ui-draggable-dragging')) {
         return false;
     }
@@ -12,7 +18,11 @@ $("#searchButton").click(function(e) {
     $("#wrapper").toggleClass("toggled");
     $.post(
         "APISearch.php",
-        { name: 'hej' },
+        {
+            name: seachquery,
+            category : category,
+            region : region
+        },
         function(data) {
             $('#stage').html(data);
         }
