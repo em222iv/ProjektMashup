@@ -13,7 +13,7 @@ function searchLocations() {
 
             localStorage.setItem("previousSearch", JSON.stringify(json));
             json = $.parseJSON(localStorage.getItem("previousSearch"));
-            console.log(json);
+
 
             var filteredLocations = [];
 
@@ -25,13 +25,13 @@ function searchLocations() {
 
                 var indexValue = $.inArray(locations[i],locations);
 
-                if(indexValue == i){
+                if(indexValue == i && locations[i] != null){
 
                     filteredLocations.push(locations[i]);
                 }
             }
             localStorage.setItem("filtered", JSON.stringify(filteredLocations));
-
+            codeAddress();
         }
     })
    /* $.post(

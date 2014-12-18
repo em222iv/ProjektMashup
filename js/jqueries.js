@@ -40,8 +40,6 @@ $("#searchButton").click(function(e) {
 
     setTimeout(function(){
         searchLocations();
-        codeAddress();
-
         content.lastElementChild.remove();
     }, 3000);
 
