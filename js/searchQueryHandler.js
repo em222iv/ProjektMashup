@@ -24,4 +24,5 @@ function searchList() {
     });
 }
 
+
 document.addEventListener("load", init());
