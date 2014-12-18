@@ -1,53 +1,76 @@
-/**
- * Created by erikmagnusson on 12/12/14.
- */
-function initialize() {
-    var mapOptions = {
-        zoom: 8
-    };
-    map = new google.maps.Map(document.getElementById('map-canvas'),
-        mapOptions);
+var geocoder;
+
+function init(){
 
 
-    // Try HTML5 geolocation
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = new google.maps.LatLng(position.coords.latitude,
-                position.coords.longitude);
+    map.initialize();
+}
+var map = {
 
-//            var infowindow = new google.maps.InfoWindow({
-//                map: map,
-//                position: pos,
-//                content: 'Location found using HTML5.'
-//            });
+    map:undefined,
 
-            map.setCenter(pos);
-        }, function() {
-            handleNoGeolocation(true);
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleNoGeolocation(false);
+    initialize:function() {
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(61.23026,14.91776);
+        var styles = [
+            {
+                featureType: "all",
+                stylers: [
+                    { saturation: -80 }
+                ]
+            },{
+                featureType: "road.arterial",
+                elementType: "geometry",
+                stylers: [
+                    { hue: "#00ffee" },
+                    { saturation: 50 }
+                ]
+            },{
+                featureType: "poi.business",
+                elementType: "labels",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            }
+        ];
+        // Create a new StyledMapType object, passing it the array of styles,
+        // as well as the name to be displayed on the map type control.
+        var styledMap = new google.maps.StyledMapType(styles,
+            {name: "Styled Map"});
+
+
+
+        var mapOptions = {
+            center: latlng,
+            zoom: 5,
+            mapTypeControlOptions: {
+                mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+            }
+        };
+        console.log(mapOptions)
+        this.map = new google.maps.Map(document.getElementById('map-canvas',styledMap),
+            mapOptions);
+
+        this.map.mapTypes.set('map_style', styledMap);
+        this.map.setMapTypeId('map_style');
     }
 }
 
-function handleNoGeolocation(errorFlag) {
-    if (errorFlag) {
-        var content = 'Error: The Geolocation service failed.';
-    } else {
-        var content = 'Error: Your browser doesn\'t support geolocation.';
-    }
-
-    var options = {
-        map: map,
-        position: new google.maps.LatLng(60, 105),
-        content: content
-    };
-
-    var infowindow = new google.maps.InfoWindow(options);
-    map.setCenter(options.position);
-
-
-
+function codeAddress() {
+    var address = localStorage.getItem("chosenRegionName");
+    geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            console.log(results[0].geometry.location);
+            /*var marker = new google.maps.Marker({
+                map: map.map,
+                position: results[0].geometry.location
+            });*/
+            map.map.setCenter(marker.getPosition());
+            map.map.setZoom(7);
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
 }
-google.maps.event.addDomListener(window, 'load', initialize);
+
+window.addEventListener(window,'load', init())

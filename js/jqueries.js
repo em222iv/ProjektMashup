@@ -27,6 +27,24 @@ $("#searchButton").click(function(e) {
             $('#stage').html(data);
         }
     );
+    var content = document.getElementById("page-content-wrapper");
+    $("<div />").css({
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        left: 0,
+        top: 0,
+        zIndex: 1000000,  // to be on the safe side
+        background: "url(./img/loading.gif) no-repeat 50% 50%"
+    }).appendTo($(content).css("position", "relative"));
+
+    setTimeout(function(){
+        searchLocations();
+        codeAddress();
+
+        content.lastElementChild.remove();
+    }, 3000);
+
 
 });
 //The full path of the Award.php file in the web root

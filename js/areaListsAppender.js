@@ -41,8 +41,6 @@ function regionList() {
             var json = $.parseJSON(data);
             localStorage.setItem("regions", JSON.stringify(json));
             json = $.parseJSON(localStorage.getItem("regions"));
-            //now json variable contains data in json format
-            //let's display a few items
 
             iterateRenderList(json.regions.region,regionList);
         }
