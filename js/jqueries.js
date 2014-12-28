@@ -46,7 +46,10 @@ $("#searchButton").click(function(e) {
 
 });
 //The full path of the Award.php file in the web root
-
+  /*  $('body').click(function(e) {
+        var target = $(e.target);
+        console.log(target);
+    });*/
     var isDragging = false;
     $("#map-canvas")
     .mousedown(function() {

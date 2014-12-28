@@ -14,27 +14,25 @@ function searchLocations() {
             localStorage.setItem("previousSearch", JSON.stringify(json));
             json = $.parseJSON(localStorage.getItem("previousSearch"));
 
-
             var filteredLocations = [];
-
             for (var i = 0; i < json.SearchResult.Node.length; i++) {
 
-                  var locations = json.SearchResult.Node.map(function(location) {
+              var locations = json.SearchResult.Node.map(function(location) {
                     return location['Location'];
                 });
 
                 var indexValue = $.inArray(locations[i],locations);
 
                 if(indexValue == i && locations[i] != null){
-
                     filteredLocations.push(locations[i]);
                 }
+
             }
             localStorage.setItem("filtered", JSON.stringify(filteredLocations));
             codeAddress();
         }
     })
-   /* $.post(
+    $.post(
         "APILocationCoordinates.php",
         {
             Locations: $.parseJSON(localStorage.getItem("filtered"))
@@ -42,5 +40,5 @@ function searchLocations() {
         function(data) {
             $('#stage').html(data);
         }
-    );*/
+    );
 }

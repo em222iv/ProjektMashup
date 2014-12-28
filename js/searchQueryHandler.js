@@ -18,7 +18,7 @@ function searchList() {
 
             localStorage.setItem("search", JSON.stringify(json));
             json = $.parseJSON(localStorage.getItem("search"));
-            console.log(json);
+
             //now json variable contains data in json format
         }
     });
