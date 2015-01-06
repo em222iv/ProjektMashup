@@ -71,6 +71,7 @@ function codeAddress() {
     for (var i=0;i<markersArray.length;i++) {
         markersArray[i].setMap(null);
     }
+
     markersArray = [];
 
     var address = localStorage.getItem("chosenRegionName");
@@ -91,51 +92,67 @@ function codeAddress() {
             alert('Geocode was not successful for the following reason: ' + status);
         }
     });
-
-    var json = $.parseJSON(localStorage.getItem("filtered"));
+    var json = null;
+    json = $.parseJSON(localStorage.getItem("filtered"));
 
     var count = 0;
-    var i = -1;
-    for(i;i < json.length;i++){
+
+
+    for(var i = 0;i < json.length;i++){
+
+
         var address = json[i];
 
+       // sleepFor(100);
+
         geocoder.geocode( { 'address': address}, function(results, status) {
+
+            //bugg sker här
+            //adress skjuts in via address. tex. Nybro
+            //Men vid vissa tillfällen så ger den ut fel address, den byter plats på olika värden i arrayen
+
+
+            console.log(json[count]);
+            console.log(results[0].formatted_address);
             if (status == google.maps.GeocoderStatus.OK) {
-
-                infowindow = new google.maps.InfoWindow({
-                    content: json[count]
+               /* infowindow = new google.maps.InfoWindow({
+                    content: json[count],
+                    visible:false
                 });
-                infowWindowsArray.push(infowindow);
+                infowWindowsArray.push(infowindow);*/
+                //
 
-                marker = new google.maps.Marker({
-                map: map.map,
-                position: results[0].geometry.location,
-                content: json[count]
+                    marker = new google.maps.InfoWindow({
+                        map: map.map,
+                        content: json[count],
 
-                });
+                        position:  results[0].geometry.location
+
+                    });
+
 
                 markersArray.push(marker);
+                //createInfoWindow(marker);
                 count++;
-
             }
-            createInfoWindow(json);
-
-
-            });
-
+        });
 
     }
+
 }
+function sleepFor( sleepDuration ){
+    var now = new Date().getTime();
+    while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
+}
+function createInfoWindow(currentMarker) {
 
-function createInfoWindow(markerContent) {
-
-    google.maps.event.addListener(marker, 'click', (function(marker) {
+    google.maps.event.addListener(currentMarker, 'click', (function(currentMarker) {
         return function(){
             if(prev_infoWindow){
                 prev_infoWindow.close();
             }
 
-            var infoWindowContent = createListOfRegionArticles(marker.content);
+            var infoWindowContent = createListOfRegionArticles(currentMarker.content);
 
             infowindow = new google.maps.InfoWindow({
                 content: infoWindowContent.toString()
@@ -145,7 +162,8 @@ function createInfoWindow(markerContent) {
 
 
 
-            infowindow.open(map.map,marker);
+            infowindow.open(map.map,currentMarker);
+
         }
     })(marker))
 }

@@ -10,7 +10,7 @@ function searchLocations() {
             //data downloaded so we call parseJSON function
             //and pass downloaded data
             var json = $.parseJSON(data);
-
+            localStorage.removeItem("previousSearch");
             localStorage.setItem("previousSearch", JSON.stringify(json));
             json = $.parseJSON(localStorage.getItem("previousSearch"));
 
@@ -28,6 +28,7 @@ function searchLocations() {
                 }
 
             }
+            localStorage.removeItem("filtered");
             localStorage.setItem("filtered", JSON.stringify(filteredLocations));
             codeAddress();
         }

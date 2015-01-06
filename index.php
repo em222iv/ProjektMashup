@@ -59,6 +59,20 @@ require_once('getBaseInfo.php');
         </div>
         <div class="row">
             <div class="col-lg-12">
+
+                <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                </fb:login-button>
+
+                <div id="status">
+
+                <div
+                    class="fb-like"
+                    data-share="true"
+                    data-width="450"
+                    data-show-faces="true">
+                </div>
+
+                </div>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                         Län
@@ -94,7 +108,6 @@ require_once('getBaseInfo.php');
 
 </div>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN3etb_MUZAn64OCBYr8_DUQt-hFTUDzA"></script>
@@ -106,5 +119,9 @@ require_once('getBaseInfo.php');
 <script src="js/searchQueryHandler.js"></script>
 <script src="js/jqueries.js"></script>
 <script src="js/searchLocations.js"></script>
+<script src="js/facebookLogin.js"></script>
+<script>
+
+</script>
 </body>
 </html>

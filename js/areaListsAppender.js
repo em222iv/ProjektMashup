@@ -3,6 +3,8 @@
  */
 
 function init() {
+    localStorage.removeItem("categories");
+    localStorage.removeItem("regions");
     categoryList();
     regionList();
 
@@ -19,7 +21,6 @@ function categoryList() {
             //data downloaded so we call parseJSON function
             //and pass downloaded data
             var json = $.parseJSON(data);
-
             localStorage.setItem("categories", JSON.stringify(json));
             json = $.parseJSON(localStorage.getItem("categories"));
 

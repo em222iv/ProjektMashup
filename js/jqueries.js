@@ -68,3 +68,4 @@ $("#searchButton").click(function(e) {
     }).on("dblclick", function(e){
             e.preventDefault();  //cancel system double-click event
         });
+
