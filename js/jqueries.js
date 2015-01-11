@@ -4,18 +4,20 @@
     //toggle on maptouch
 
     //make search/post to php
+
 $("#searchButton").click(function(e) {
 
     var seachquery = $("#searchInput").val();
     var category = localStorage.getItem("chosenCategory");
     var region = localStorage.getItem("chosenRegion");
-
+    console.log(seachquery,category,region);
     console.log($("#region-dropdown").val());
     if ($('.bar').is('.ui-draggable-dragging')) {
         return false;
     }
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
+
     $.post(
         "APISearch.php",
         {
@@ -24,34 +26,35 @@ $("#searchButton").click(function(e) {
             region : region
         },
         function(data) {
-            $('#stage').html(data);
+            searchLocations(data);
         }
     );
-    var content = document.getElementById("page-content-wrapper");
-    $("<div />").css({
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        left: 0,
-        top: 0,
-        zIndex: 1000000,  // to be on the safe side
-        background: "url(./img/loading.gif) no-repeat 50% 50%"
-    }).appendTo($(content).css("position", "relative"));
+
+ /*       var content = document.getElementById("page-content-wrapper");
+        $("<div />").css({
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            left: 0,
+            top: 0,
+            zIndex: 1000000,  // to be on the safe side
+            background: "url(./img/loading.gif) no-repeat 50% 50%"
+        }).appendTo($(content).css("position", "relative"));
 
     setTimeout(function(){
-        searchLocations();
+        console.log('hej');
         content.lastElementChild.remove();
-    }, 3000);
+    }, 3000);*/
 
 
 });
 //The full path of the Award.php file in the web root
-  /*  $('body').click(function(e) {
-        var target = $(e.target);
-        console.log(target);
-    });*/
-    var isDragging = false;
-    $("#map-canvas")
+/*  $('body').click(function(e) {
+ var target = $(e.target);
+ console.log(target);
+ });*/
+var isDragging = false;
+$("#map-canvas")
     .mousedown(function() {
         $(window).mousemove(function() {
             isDragging = true;
@@ -63,9 +66,9 @@ $("#searchButton").click(function(e) {
         isDragging = false;
         $(window).unbind("mousemove");
         if (!wasDragging) { //was clicking
-        $("#wrapper").toggleClass("toggled");
+            e.preventDefault();
         }
     }).on("dblclick", function(e){
-            e.preventDefault();  //cancel system double-click event
-        });
-
+            $("#wrapper").toggleClass("toggled");
+        //toggle on double-click
+    });

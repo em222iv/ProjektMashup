@@ -1,5 +1,6 @@
 
 <!DOCTYPE html>
+
 <?php
 ini_set('include_path', 'C:\xampp\htdocs\phppot_samples\php_google_oauth_login\google-api-php-client\src');
 
@@ -60,20 +61,10 @@ require_once('getBaseInfo.php');
         <div class="row">
             <div class="col-lg-12">
 
-                <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-                </fb:login-button>
 
-                <div id="status">
 
-                <div
-                    class="fb-like"
-                    data-share="true"
-                    data-width="450"
-                    data-show-faces="true">
-                </div>
-
-                </div>
                 <div class="dropdown">
+
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                         Län
                         <span class="caret"></span>
@@ -97,6 +88,16 @@ require_once('getBaseInfo.php');
                 </div>
 
             </div>
+        </div>
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+
+        <div id="status"></div>
+        <div
+            class="fb-like"
+            data-share="true"
+            data-width="450"
+            data-show-faces="true">
         </div>
     </div>
 

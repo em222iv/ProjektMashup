@@ -1,8 +1,8 @@
 /**
  * Created by erikmagnusson on 15/12/14.
  */
-
 function init() {
+
     localStorage.removeItem("categories");
     localStorage.removeItem("regions");
     categoryList();
@@ -10,6 +10,8 @@ function init() {
 
 }
 function categoryList() {
+
+
 
     var categoryList = document.getElementById('category-dropdown');
     var chosenCategory = document.getElementById('chosenCategory');
@@ -37,6 +39,7 @@ function regionList() {
         //force to handle it as text
         dataType: "json",
         success: function(data) {
+
             //data downloaded so we call parseJSON function
             //and pass downloaded data
             var json = $.parseJSON(data);

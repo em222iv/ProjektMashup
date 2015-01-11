@@ -48,6 +48,7 @@ var map = {
 
 
         var mapOptions = {
+            disableDoubleClickZoom: true,
             center: latlng,
             zoom: 5,
             mapTypeControlOptions: {
@@ -66,8 +67,8 @@ var map = {
     }
 }
 
-function codeAddress() {
-
+function codeAddress(searchJson) {
+    var SJ = searchJson;
     for (var i=0;i<markersArray.length;i++) {
         markersArray[i].setMap(null);
     }
@@ -89,7 +90,8 @@ function codeAddress() {
             map.map.setZoom(7);
 
         } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            //alert('Geocode was not successful for the following reason: ' + status);
+
         }
     });
     var json = null;
@@ -122,7 +124,7 @@ function codeAddress() {
                 infowWindowsArray.push(infowindow);*/
                 //
 
-                    marker = new google.maps.InfoWindow({
+                    marker = new google.maps.Marker({
                         map: map.map,
                         content: json[count],
 
@@ -130,15 +132,12 @@ function codeAddress() {
 
                     });
 
-
                 markersArray.push(marker);
-                //createInfoWindow(marker);
+                createInfoWindow(marker);
                 count++;
             }
         });
-
     }
-
 }
 function sleepFor( sleepDuration ){
     var now = new Date().getTime();
@@ -183,7 +182,7 @@ function createListOfRegionArticles(chosenRegionMarker) {
                 '<p>'+previousSearch.SearchResult.Node[i].Key+'</p>'+
                 '<a><p>Länk: '+previousSearch.SearchResult.Node[i].Url+'</p></a>'+
                 '<p>'+previousSearch.SearchResult.Node[i].Price+' :-</p>'+
-                '<p>'+previousSearch.SearchResult.Node[i].Location+' :-</p>'+
+                //'<p>'+previousSearch.SearchResult.Node[i].Location+' :-</p>'+
                 '</div>'+
                 '</div>';
                 list.push(contentString);
