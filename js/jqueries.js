@@ -5,8 +5,15 @@
 
     //make search/post to php
 
+/*$(document).keypress(function(e) {
+    if(e.which == 13) {
+        $( "#searchButton" ).click();
+    }
+});*/
+$("#saveArticle").click(function(e) {
+    console.log(e);
+});
 $("#searchButton").click(function(e) {
-
     var seachquery = $("#searchInput").val();
     var category = localStorage.getItem("chosenCategory");
     var region = localStorage.getItem("chosenRegion");
@@ -26,10 +33,9 @@ $("#searchButton").click(function(e) {
             region : region
         },
         function(data) {
-            searchLocations(data);
+            searchLocations(data,seachquery,region,category);
         }
     );
-
  /*       var content = document.getElementById("page-content-wrapper");
         $("<div />").css({
             position: "absolute",
@@ -46,8 +52,8 @@ $("#searchButton").click(function(e) {
         content.lastElementChild.remove();
     }, 3000);*/
 
-
 });
+
 //The full path of the Award.php file in the web root
 /*  $('body').click(function(e) {
  var target = $(e.target);
@@ -66,7 +72,7 @@ $("#map-canvas")
         isDragging = false;
         $(window).unbind("mousemove");
         if (!wasDragging) { //was clicking
-            e.preventDefault();
+            //do nothing
         }
     }).on("dblclick", function(e){
             $("#wrapper").toggleClass("toggled");

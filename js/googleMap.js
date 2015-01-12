@@ -2,19 +2,15 @@ var geocoder;
 var markersArray = [];
 var marker;
 var infowindow;
-var infowWindowsArray = [];
 prev_infoWindow=false;
 
-function init(){
 
+function init(){
 
     map.initialize();
 }
 var map = {
-
-
     map:undefined,
-
     initialize:function() {
 
         geocoder = new google.maps.Geocoder();
@@ -45,8 +41,6 @@ var map = {
         var styledMap = new google.maps.StyledMapType(styles,
             {name: "Styled Map"});
 
-
-
         var mapOptions = {
             disableDoubleClickZoom: true,
             center: latlng,
@@ -61,27 +55,23 @@ var map = {
 
         this.map.mapTypes.set('map_style', styledMap);
         this.map.setMapTypeId('map_style');
-
-
-
     }
 }
 
 function codeAddress(searchJson) {
-    var SJ = searchJson;
     for (var i=0;i<markersArray.length;i++) {
         markersArray[i].setMap(null);
     }
-
     markersArray = [];
 
     var address = localStorage.getItem("chosenRegionName");
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            //console.log(results[0].geometry.location);
 
-            var infoWindow = new google.maps.InfoWindow({
-                visible:false,
+            //console.log(results[0].geometry.location);
+            console.log(results);
+            infoWindow = new google.maps.InfoWindow({
+                visibility:hidden,
                 map: map.map,
                 position: results[0].geometry.location,
                 content: localStorage.getItem("chosenRegionName")
@@ -98,24 +88,18 @@ function codeAddress(searchJson) {
     json = $.parseJSON(localStorage.getItem("filtered"));
 
     var count = 0;
-
-
     for(var i = 0;i < json.length;i++){
 
-
-        var address = json[i];
-
+        var place = json[i];
        // sleepFor(100);
+       // console.log(i);
+        geocoder.geocode( { 'address': place+" Sweden"}, function(results, status) {
 
-        geocoder.geocode( { 'address': address}, function(results, status) {
-
+            json[count] = results[0].formatted_address;
             //bugg sker här
             //adress skjuts in via address. tex. Nybro
             //Men vid vissa tillfällen så ger den ut fel address, den byter plats på olika värden i arrayen
 
-
-            console.log(json[count]);
-            console.log(results[0].formatted_address);
             if (status == google.maps.GeocoderStatus.OK) {
                /* infowindow = new google.maps.InfoWindow({
                     content: json[count],
@@ -123,19 +107,28 @@ function codeAddress(searchJson) {
                 });
                 infowWindowsArray.push(infowindow);*/
                 //
+                console.log(results[0].formatted_address)
+                console.log(json[count])
+                marker = new google.maps.Marker({
+                    map: map.map,
+                    draggable:true,
+                    animation: google.maps.Animation.DROP,
+                    content: json[count],
+                    position:  results[0].geometry.location
 
-                    marker = new google.maps.Marker({
-                        map: map.map,
-                        content: json[count],
+                });
 
-                        position:  results[0].geometry.location
+                /*google.maps.event.addListener(marker, 'click', function() {
+                    map.map.setZoom(8)
+                    map.map.setCenter(marker.getPosition());
 
-                    });
-
+                });*/
                 markersArray.push(marker);
+              //  console.log(marker);
                 createInfoWindow(marker);
-                count++;
+            //console.log(count);
             }
+            count++;
         });
     }
 }
@@ -144,24 +137,22 @@ function sleepFor( sleepDuration ){
     while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
 }
 function createInfoWindow(currentMarker) {
-
     google.maps.event.addListener(currentMarker, 'click', (function(currentMarker) {
         return function(){
             if(prev_infoWindow){
                 prev_infoWindow.close();
             }
-
-            var infoWindowContent = createListOfRegionArticles(currentMarker.content);
-
+            var infoWindowContent = ' <div class="panel panel-default"><div class="panel-heading"><form class="form-inline">'+createListOfRegionArticles(currentMarker.content)+'</form></div></div>';
             infowindow = new google.maps.InfoWindow({
-                content: infoWindowContent.toString()
+                content: infoWindowContent.toString(),
+                maxHeight:500,
+                maxWidth:350,
+                position: map.map.getCenter()
 
             });
             prev_infoWindow = infowindow;
-
-
-
             infowindow.open(map.map,currentMarker);
+
 
         }
     })(marker))
@@ -170,27 +161,23 @@ function createInfoWindow(currentMarker) {
 function createListOfRegionArticles(chosenRegionMarker) {
     var previousSearch = $.parseJSON(localStorage.getItem("previousSearch"));
     var list = [];
-
+    var contentString = "";
     for(var i = 0; i < previousSearch.SearchResult.Node.length;i++){
         if(chosenRegionMarker == previousSearch.SearchResult.Node[i].Location){
-            var contentString = '<div border="1px solid black" id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
-                '<h1 id="firstHeading" class="firstHeading">'+previousSearch.SearchResult.Node[i].Title+'</h1>'+
-                '<div id="bodyContent">'+
-                '<img alt="Smiley face" src='+previousSearch.SearchResult.Node[i].Thumbnail+'>'+
-                '<p>'+previousSearch.SearchResult.Node[i].Key+'</p>'+
-                '<a><p>Länk: '+previousSearch.SearchResult.Node[i].Url+'</p></a>'+
-                '<p>'+previousSearch.SearchResult.Node[i].Price+' :-</p>'+
-                //'<p>'+previousSearch.SearchResult.Node[i].Location+' :-</p>'+
-                '</div>'+
-                '</div>';
-                list.push(contentString);
+            contentString = contentString +
+                '<div border="1px solid black" class="form-group text-center" margin="50px">'+
+                    '<div id="siteNotice">'+'</div>'+
+                    '<h2 id="firstHeading" class="firstHeading">'+previousSearch.SearchResult.Node[i].Title+'</h2>'+
+                    '<h4><p>Finns i: '+previousSearch.SearchResult.Node[i].Location+'</p></h4>'+
+                    '<div id="bodyContent">'+
+                    '<div class="well well-sm text-center" ><img alt="productPicture" src='+previousSearch.SearchResult.Node[i].Thumbnail+'></div>'+
+                    //'<p>'+previousSearch.SearchResult.Node[i].Key+'</p>'+
+                    '<div class="well well-sm text-center" ><a  target="_blank" href='+previousSearch.SearchResult.Node[i].Url+'><p>'+"Länk till objekt"+'</p></a></div>'+
+                    '<div class="well well-sm text-center" ><p>Pris:'+previousSearch.SearchResult.Node[i].Price+' :-</p></div>'+
+                    '<input type="button" id="saveArticle" name='+i+' class="btn btn-default btn-lg" value='+"Spara"+'></div><bold><hr/></bold>';
         }
     }
+    list.push(contentString);
     return list;
-
 }
-
-
 window.addEventListener(window,'load', init())

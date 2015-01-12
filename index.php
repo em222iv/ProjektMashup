@@ -6,7 +6,7 @@ ini_set('include_path', 'C:\xampp\htdocs\phppot_samples\php_google_oauth_login\g
 
 require_once('getBaseInfo.php');
 ?>
-<html>
+<html MANIFEST="manifest.appcache">
 <head>
     <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
@@ -45,7 +45,7 @@ require_once('getBaseInfo.php');
                         </span>
                     </div>
                 </form>
-                <div class="row">
+               <!-- <div class="row">
                     <div class="col-lg-12">
                         <div  class="col-lg-5">
                             <label id="chosenRegion"></label>
@@ -54,7 +54,7 @@ require_once('getBaseInfo.php');
                             <label id="chosenCategory"></label>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
             </div>
         </div>
@@ -79,7 +79,7 @@ require_once('getBaseInfo.php');
         <div class="row">
             <div class="col-lg-12">
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
                         Kategorier
                         <span class="caret"></span>
                     </button>
@@ -121,8 +121,17 @@ require_once('getBaseInfo.php');
 <script src="js/jqueries.js"></script>
 <script src="js/searchLocations.js"></script>
 <script src="js/facebookLogin.js"></script>
+<script src="js/savedArticles.js"></script>
 <script>
-
+    $(document).ready(function() {
+        console.log(localStorage.getItem("chosenCategoryName"));
+        if(localStorage.getItem("chosenCategoryName")==null || localStorage.getItem("chosenRegionName")==null){
+            localStorage.setItem("chosenCategoryName", "Kategorier");
+            localStorage.setItem("chosenRegionName", "Län");
+        }
+        document.getElementById("dropdownMenu2").innerText= localStorage.getItem("chosenCategoryName");
+        document.getElementById("dropdownMenu1").innerHTML=localStorage.getItem("chosenRegionName");
+    });
 </script>
 </body>
 </html>

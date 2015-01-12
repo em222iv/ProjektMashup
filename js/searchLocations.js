@@ -1,22 +1,33 @@
 /**
  * Created by erikmagnusson on 17/12/14.
  */
+//takes searchRequest info as parameter
+var search;
+var cat ="";
+var reg;
+function searchLocations(data,searchResult,region,category) {
 
-function searchLocations(data) {
 
+            //parse it to correct json
+            var json;
+            //save to localStorage
+            //var prevSearch = $.parseJSON(localStorage.getItem("previousSearch"));
 
+            if(search == searchResult && cat == category && reg == region){
+                return;
+            }else {
+                json = $.parseJSON(data);
+                localStorage.removeItem("previousSearch");
+                localStorage.setItem("previousSearch", JSON.stringify(json));
+                json = $.parseJSON(localStorage.getItem("previousSearch"));
+            }
+            search = searchResult;
+            cat = category;
+            reg = region;
 
-            console.log(data);
-            //data downloaded so we call parseJSON function
-            //and pass downloaded data
-            var json = $.parseJSON(data);
-
-            localStorage.removeItem("previousSearch");
-            localStorage.setItem("previousSearch", JSON.stringify(json));
-            json = $.parseJSON(localStorage.getItem("previousSearch"));
-            console.log(json);
-
+    //array to filter out region who has articles avaible
             var filteredLocations = [];
+
             for (var i = 0; i < json.SearchResult.Node.length; i++) {
 
                 var locations = json.SearchResult.Node.map(function(location) {
@@ -29,7 +40,7 @@ function searchLocations(data) {
                     filteredLocations.push(locations[i]);
                 }
 
-            }
+            } console.log(filteredLocations.length);
             localStorage.removeItem("filtered");
             localStorage.setItem("filtered", JSON.stringify(filteredLocations));
             codeAddress(json);

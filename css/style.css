@@ -47,3 +47,15 @@ body { height: 100%; margin: 0; padding: 0 }
     width:70%;
     padding: 5%;
 }
+#infoWindowContent {
+
+line-height: 1.35;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.fb_iframe_widget {
+    display: inline-block;
+    position: relative;
+    margin-left: 10px;
+    padding:5px
+}

@@ -28,6 +28,7 @@ function categoryList() {
 
             //now json variable contains data in json format
             //let's display a few items
+
             iterateRenderList(json.categories.category,categoryList);
         }
     });
@@ -45,7 +46,6 @@ function regionList() {
             var json = $.parseJSON(data);
             localStorage.setItem("regions", JSON.stringify(json));
             json = $.parseJSON(localStorage.getItem("regions"));
-
             iterateRenderList(json.regions.region,regionList);
         }
     });
@@ -59,9 +59,9 @@ function iterateRenderList(json,element) {
        // var id = document.createAttribute('id');
 
         li.appendChild(a);
+        a.setAttribute("class","catList");
         a.setAttribute("id", json[i]['@value']);
         var categoryname = json[i]['#text'];
-
         a.textContent = categoryname;
         element.appendChild(li);
 
