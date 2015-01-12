@@ -42,17 +42,10 @@ function searchLocations(data,searchResult,region,category) {
 
             } console.log(filteredLocations.length);
             localStorage.removeItem("filtered");
+    console.log()
             localStorage.setItem("filtered", JSON.stringify(filteredLocations));
             codeAddress(json);
 
-    $.post(
-        "APILocationCoordinates.php",
-        {
-            Locations: $.parseJSON(localStorage.getItem("filtered"))
-        },
-        function(data) {
-            $('#stage').html(data);
-        }
-    );
+
 }
 

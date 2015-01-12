@@ -86,7 +86,7 @@ function codeAddress(searchJson) {
     });
     var json = null;
     json = $.parseJSON(localStorage.getItem("filtered"));
-
+    console.log(json);
     var count = 0;
     for(var i = 0;i < json.length;i++){
 
@@ -95,25 +95,35 @@ function codeAddress(searchJson) {
        // console.log(i);
         geocoder.geocode( { 'address': place+" Sweden"}, function(results, status) {
 
-            json[count] = results[0].formatted_address;
+
             //bugg sker här
             //adress skjuts in via address. tex. Nybro
             //Men vid vissa tillfällen så ger den ut fel address, den byter plats på olika värden i arrayen
 
             if (status == google.maps.GeocoderStatus.OK) {
-               /* infowindow = new google.maps.InfoWindow({
-                    content: json[count],
-                    visible:false
-                });
-                infowWindowsArray.push(infowindow);*/
-                //
-                console.log(results[0].formatted_address)
-                console.log(json[count])
+
+
+
+                var split = results[0].formatted_address.split(',');
+                var place = split[0];
+                var a = json.indexOf(place);
+
+                if(a==-1){
+                    for(var a = 0;a < json.length;a++){
+                        console.log(json[a]);
+                        if(json[a].indexOf(place) !== -1){
+
+                            place = json[a];
+                            console.log(place);
+                        }
+
+                    }
+                }
                 marker = new google.maps.Marker({
                     map: map.map,
-                    draggable:true,
+                    draggable:false,
                     animation: google.maps.Animation.DROP,
-                    content: json[count],
+                    content: place,
                     position:  results[0].geometry.location
 
                 });
@@ -132,6 +142,9 @@ function codeAddress(searchJson) {
         });
     }
 }
+function wordInString(s, word){
+    return new RegExp( '\\b' + word + '\\b', 'i').test(s);
+}
 function sleepFor( sleepDuration ){
     var now = new Date().getTime();
     while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
@@ -142,6 +155,7 @@ function createInfoWindow(currentMarker) {
             if(prev_infoWindow){
                 prev_infoWindow.close();
             }
+
             var infoWindowContent = ' <div class="panel panel-default"><div class="panel-heading"><form class="form-inline">'+createListOfRegionArticles(currentMarker.content)+'</form></div></div>';
             infowindow = new google.maps.InfoWindow({
                 content: infoWindowContent.toString(),
