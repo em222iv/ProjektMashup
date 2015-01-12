@@ -1,6 +1,8 @@
 /**
  * Created by erikmagnusson on 15/12/14.
  */
+
+//boostrap dropndownlists script
 !function ($) {
 
     "use strict"; // jshint ;_;

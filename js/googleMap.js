@@ -3,18 +3,15 @@ var markersArray = [];
 var marker;
 var infowindow;
 prev_infoWindow=false;
-
-
 function init(){
-
     map.initialize();
 }
 var map = {
     map:undefined,
     initialize:function() {
-
         geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng(61.23026,14.91776);
+        //styling map
         var styles = [
             {
                 featureType: "all",
@@ -36,11 +33,8 @@ var map = {
                 ]
             }
         ];
-        // Create a new StyledMapType object, passing it the array of styles,
-        // as well as the name to be displayed on the map type control.
         var styledMap = new google.maps.StyledMapType(styles,
             {name: "Styled Map"});
-
         var mapOptions = {
             disableDoubleClickZoom: true,
             center: latlng,
@@ -49,29 +43,25 @@ var map = {
                 mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
             }
         };
-
         this.map = new google.maps.Map(document.getElementById('map-canvas',styledMap),
             mapOptions);
-
         this.map.mapTypes.set('map_style', styledMap);
         this.map.setMapTypeId('map_style');
     }
 }
-
+// takes searchquery as parameter, handles it and renders marker/infowindows
 function codeAddress(searchJson) {
+    //takes away all previous markers
     for (var i=0;i<markersArray.length;i++) {
         markersArray[i].setMap(null);
     }
     markersArray = [];
-
+    //render infowindow to present region of choice, also zooms to that position
     var address = localStorage.getItem("chosenRegionName");
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-
-            //console.log(results[0].geometry.location);
-            console.log(results);
             infoWindow = new google.maps.InfoWindow({
-                visibility:hidden,
+
                 map: map.map,
                 position: results[0].geometry.location,
                 content: localStorage.getItem("chosenRegionName")
@@ -80,83 +70,57 @@ function codeAddress(searchJson) {
             map.map.setZoom(7);
 
         } else {
-            //alert('Geocode was not successful for the following reason: ' + status);
-
+            alert('Geocode was not successful for the following reason: ' + status);
         }
     });
     var json = null;
     json = $.parseJSON(localStorage.getItem("filtered"));
-    console.log(json);
-    var count = 0;
+    //loops the places in region
     for(var i = 0;i < json.length;i++){
-
         var place = json[i];
-       // sleepFor(100);
-       // console.log(i);
-        geocoder.geocode( { 'address': place+" Sweden"}, function(results, status) {
-
-
-            //bugg sker här
-            //adress skjuts in via address. tex. Nybro
-            //Men vid vissa tillfällen så ger den ut fel address, den byter plats på olika värden i arrayen
-
+        geocoder.geocode( { 'address': place+address+" Sweden"}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-
-
-
+                //splits answer from geocode and optimizes it for matching blocket search result
                 var split = results[0].formatted_address.split(',');
                 var place = split[0];
                 var a = json.indexOf(place);
-
                 if(a==-1){
                     for(var a = 0;a < json.length;a++){
-                        console.log(json[a]);
                         if(json[a].indexOf(place) !== -1){
-
                             place = json[a];
-                            console.log(place);
                         }
-
                     }
                 }
+                //create marker
                 marker = new google.maps.Marker({
                     map: map.map,
                     draggable:false,
                     animation: google.maps.Animation.DROP,
                     content: place,
                     position:  results[0].geometry.location
-
                 });
-
-                /*google.maps.event.addListener(marker, 'click', function() {
-                    map.map.setZoom(8)
-                    map.map.setCenter(marker.getPosition());
-
-                });*/
+                //inserts markers into marker array, for a easy way to delete them when new search is made
                 markersArray.push(marker);
-              //  console.log(marker);
+                //sends marker to create infowindow for it
                 createInfoWindow(marker);
-            //console.log(count);
             }
-            count++;
         });
     }
 }
-function wordInString(s, word){
-    return new RegExp( '\\b' + word + '\\b', 'i').test(s);
-}
-function sleepFor( sleepDuration ){
-    var now = new Date().getTime();
-    while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
-}
 function createInfoWindow(currentMarker) {
+    //click event for showing
     google.maps.event.addListener(currentMarker, 'click', (function(currentMarker) {
         return function(){
+            //if clicking different markers, the previous infowindow will close
             if(prev_infoWindow){
                 prev_infoWindow.close();
             }
-
-            var infoWindowContent = ' <div class="panel panel-default"><div class="panel-heading"><form class="form-inline">'+createListOfRegionArticles(currentMarker.content)+'</form></div></div>';
+            //create html string for infowindow
+            var infoWindowContent =
+                '<div class="panel panel-default"><div class="panel-heading"><form class="form-inline">'
+                +createListOfRegionArticles(currentMarker.content)
+                +'</form></div></div>';
+            //infowindow is created
             infowindow = new google.maps.InfoWindow({
                 content: infoWindowContent.toString(),
                 maxHeight:500,
@@ -165,17 +129,17 @@ function createInfoWindow(currentMarker) {
 
             });
             prev_infoWindow = infowindow;
+            //tells infowinow to open for this certain marker
             infowindow.open(map.map,currentMarker);
-
-
         }
     })(marker))
 }
-
+//funtion creates infowindow content string
 function createListOfRegionArticles(chosenRegionMarker) {
     var previousSearch = $.parseJSON(localStorage.getItem("previousSearch"));
     var list = [];
     var contentString = "";
+    //loops search result to get article info
     for(var i = 0; i < previousSearch.SearchResult.Node.length;i++){
         if(chosenRegionMarker == previousSearch.SearchResult.Node[i].Location){
             contentString = contentString +

@@ -5,6 +5,82 @@
  */
 
 /* Toggle Styles */
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map-canvas { height: 100%; width: 100%; position: absolute; z-index: 10000}
+#menu-toggle { position: relative; z-index: 111111; float:left; margin-top:20px; margin-left: 70px;}
+
+html, body, #map-canvas {
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+#panel {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    margin-left: -180px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+}
+.tabs-below > .nav-tabs,
+.tabs-right > .nav-tabs,
+.tabs-left > .nav-tabs {
+    border-bottom: 0;
+}
+
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+    display: none;
+}
+
+.tab-content > .active,
+.pill-content > .active {
+    display: block;
+}
+
+.tabs-below > .nav-tabs {
+    border-top: 1px solid #ddd;
+}
+
+.tabs-below > .nav-tabs > li {
+    margin-top: -1px;
+    margin-bottom: 0;
+}
+
+.tabs-below > .nav-tabs > li > a {
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
+}
+
+.tabs-below > .nav-tabs > li > a:hover,
+.tabs-below > .nav-tabs > li > a:focus {
+    border-top-color: #ddd;
+    border-bottom-color: transparent;
+}
+.input-group{
+    padding: 5%;
+
+}
+.dropdown{
+    width:70%;
+    padding: 5%;
+}
+#infoWindowContent {
+
+    line-height: 1.35;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.fb_iframe_widget {
+    display: inline-block;
+    position: relative;
+    margin-left: 10px;
+    padding:5px
+}
 
 #wrapper {
     padding-left: 0;

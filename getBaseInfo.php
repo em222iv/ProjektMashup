@@ -12,10 +12,12 @@ class GetBaseInfo {
 // Next, make sure Requests can load internal classes
         Requests::register_autoloader();
         //write content to jsonfile
-     /*   $categoryRequest = Requests::get('http://apfy.me/www.blocket.se/burken/GetCategories',array('x-apfy-authorization' => 'd42a86af-0176-4551-87f4-bc4089433664','x-apfy-accept' => 'application/json'));
-          $regionsRequest = Requests::get('http://apfy.me/www.blocket.se/burken/GetRegions',array('x-apfy-authorization' => 'd42a86af-0176-4551-87f4-bc4089433664', 'x-apfy-accept' => 'application/json'));
+        if(filemtime('jSON/trafficinfo.json') > (time() - 60*60*24)){
+            $categoryRequest = Requests::get('http://apfy.me/www.blocket.se/burken/GetCategories',array('x-apfy-authorization' => 'd42a86af-0176-4551-87f4-bc4089433664','x-apfy-accept' => 'application/json'));
+            $regionsRequest = Requests::get('http://apfy.me/www.blocket.se/burken/GetRegions',array('x-apfy-authorization' => 'd42a86af-0176-4551-87f4-bc4089433664', 'x-apfy-accept' => 'application/json'));
 
-           file_put_contents('jSON/categories.json',json_encode($categoryRequest->body));
-           file_put_contents('jSON/regions.json',json_encode($regionsRequest->body));*/
+            file_put_contents('jSON/categories.json',json_encode($categoryRequest->body));
+            file_put_contents('jSON/regions.json',json_encode($regionsRequest->body));
+        }
     }
 }
